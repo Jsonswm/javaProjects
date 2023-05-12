@@ -47,13 +47,13 @@ public class MD5 {
         return twoCode;
     }
 
-    public static void main(String[] args) {
-        MD5 md5=new MD5();
-        md5.encode("1");
-        String content = "1";
-        String encoding = md5.encode("root");
-        System.out.println(encoding);
-
-
-    }
+//    public static void main(String[] args) {
+//        MD5 md5=new MD5();
+//        md5.encode("1");
+//        String content = "1";
+//        String encoding = md5.encode("root");
+//        System.out.println(encoding);
+//
+//
+//    }
 }

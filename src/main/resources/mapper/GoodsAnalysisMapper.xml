@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.logistics.mapper.GoodsMapper">
+    <select id="analysisElectronic" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="电子产品";
+    </select>
+    <select id="analysisWater" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="水产品";
+    </select>
+    <select id="analysisFoods" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="食品";
+    </select>
+    <select id="analysisFruit" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="水果";
+    </select>
+    <select id="analysisCondiment" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="调味料";
+    </select>
+    <select id="analysisWine" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="酒类";
+    </select>
+    <select id="analysisDrink" resultType="com.ming.logistics.pojo.Goods">
+        select goods_type from goods where goods_type="饮料";
+    </select>
+
+
+
+
+</mapper>

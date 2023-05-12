@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.logistics.mapper.DeliveryMapper">
+    <select id="statisticsByDelivery" resultMap="deliveryByState">
+        SELECT delivery_state, COUNT(*) AS count, COUNT(*)/(SELECT COUNT(id) FROM delivery) AS percentage
+        FROM delivery
+        WHERE #{account}
+        GROUP BY delivery_state
+    </select>
+    <resultMap id="deliveryByState" type="com.ming.logistics.dto.ClassifyByDeliveryStateDto">
+        <result property="deliveryState"  column="delivery_state"/>
+        <result property="count"  column="count"/>
+        <result property="percentage" column="percentage"/>
+    </resultMap>
+
+</mapper>

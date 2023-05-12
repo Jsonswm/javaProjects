@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.logistics.mapper.EmployeeMapper">
+    <resultMap id="employeeMap" type="com.ming.logistics.pojo.Employee">
+        <id column="id" property="id"/>
+        <result column="employee_serial" property="employeeSerial"/>
+        <result column="employee_name" property="employeeName"/>
+        <result column="employee_gender" property="employeeGender"/>
+        <result column="employee_age" property="employeeAge"/>
+        <association property="department" javaType="com.ming.logistics.pojo.Department">
+            <id column="d_id" property="id"/>
+            <result column="department_name" property="departmentName"/>
+            <result column="department_serial" property="departmentSerial"/>
+        </association>
+        <association property="professional" javaType="com.ming.logistics.pojo.Professional">
+            <id column="p_id" property="id"/>
+            <result column="professional_name" property="professionalName"/>
+        </association>
+    </resultMap>
+
+    <select id="queryAll" resultMap="employeeMap">
+        SELECT e.id,
+               e.employee_serial,
+               e.employee_name,
+               e.employee_gender,
+               e.employee_age,
+               d.id d_id,
+               d.department_name,
+               d.department_serial,
+               p.professional_name,
+               p.id p_id
+        FROM employee e
+                 LEFT JOIN department d ON e.d_id = d.id
+                 left join professional p on p.id = e.p_id
+
+    </select>
+    <!--查询所有的驾驶员-->
+    <select id="queryDrivers" resultMap="employeeMap">
+        SELECT e.id,
+               e.employee_serial,
+               e.employee_name,
+               e.employee_gender,
+               e.employee_age,
+               d.id d_id,
+               d.department_name,
+               d.department_serial,
+               p.professional_name,
+               p.id p_id
+        FROM employee e
+                 LEFT JOIN department d ON e.d_id = d.id
+                 left join professional p on e.p_id = p.id
+        where p.id = 5
+          and d.id = 5
+    </select>
+
+    <select id="searchEmployeeByLike" resultMap="employeeMap">
+        SELECT e.id,
+               e.employee_serial,
+               e.employee_name,
+               e.employee_gender,
+               e.employee_age,
+               d.id d_id,
+               d.department_name,
+               d.department_serial,
+               p.professional_name,
+               p.id p_id
+        FROM employee e
+                 LEFT JOIN department d ON e.d_id = d.id
+                 left join professional p on p.id = e.p_id
+        WHERE e.employee_serial like concat('%', #{info}, '%')
+           or e.employee_name like concat('%', #{info}, '%')
+           or e.employee_gender like concat('%', #{info}, '%')
+           or e.employee_age like concat('%', #{info}, '%')
+
+    </select>
+
+
+    <!--根据部门进行划分-->
+    <select id="analysisEmployeeCountByDepartment" resultMap="classifyByDepMap">
+        SELECT d.department_name, COUNT(e.id) as num
+        FROM employee e
+                 LEFT JOIN department d ON e.d_id = d.id
+        GROUP BY e.d_id;
+    </select>
+    <resultMap id="classifyByDepMap" type="com.ming.logistics.dto.ClassifyByDepartmentDto">
+        <result property="departmentName" column="department_name"/>
+        <result property="count" column="num"/>
+    </resultMap>
+
+    <!--根据职位进行划分-->
+    <select id="analysisEmployeeCountByProfessional" resultMap="classifyByProMap">
+        SELECT p.professional_name, COUNT(e.id) as num
+        FROM employee e
+                 LEFT JOIN professional p ON e.p_id = p.id
+        GROUP BY e.p_id;
+    </select>
+    <resultMap id="classifyByProMap" type="com.ming.logistics.dto.ClassifyProfessionalDto">
+        <result property="professionalName" column="professional_name"/>
+        <result property="count" column="num"/>
+    </resultMap>
+
+</mapper>

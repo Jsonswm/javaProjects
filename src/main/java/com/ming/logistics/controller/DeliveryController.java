@@ -9,7 +9,7 @@ import com.ming.logistics.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @RestController
@@ -67,7 +67,7 @@ public class DeliveryController {
         QueryWrapper<Delivery> deliveryQueryWrapper = new QueryWrapper<>();
         deliveryQueryWrapper.like("delivery_name", searchInfo)
                 .eq("delivery_state", 0)
-                .or().eq("delivery_state",1);
+                .or().like("delivery_name", searchInfo).eq("delivery_state",1);
         return Result.success(deliveryService.list(deliveryQueryWrapper));
     }
 
@@ -81,7 +81,7 @@ public class DeliveryController {
     @GetMapping("/queryOrdersInList")
     public Result queryOrdersInList(String searchInfo) {
         QueryWrapper<Delivery> deliveryQueryWrapper = new QueryWrapper<>();
-        deliveryQueryWrapper.like("delivery_name", searchInfo).or().eq("delivery_state", 1);
+        deliveryQueryWrapper.like("delivery_name", searchInfo).eq("delivery_state", 2);
         return Result.success(deliveryService.list(deliveryQueryWrapper));
     }
 

@@ -2,6 +2,10 @@ package com.ming.logistics.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.ming.logistics.dto.ClassifyByDepartmentDto;
 import com.ming.logistics.dto.ClassifyProfessionalDto;
 import com.ming.logistics.mapper.EmployeeMapper;
@@ -9,6 +13,7 @@ import com.ming.logistics.pojo.Department;
 import com.ming.logistics.pojo.Employee;
 import com.ming.logistics.service.EmployeeService;
 import com.ming.logistics.utils.Result;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +25,7 @@ import java.util.List;
  * @author: swm
  * @time: 2023/3/15 23:28
  */
+@Slf4j
 @RestController
 @RequestMapping("/employee")
 @CrossOrigin
@@ -56,9 +62,15 @@ public class EmployeeController {
     * @date: 2023/3/16 13:57
     */
     @GetMapping
-    public Result queryAll(){
-        List<Employee> employeeList = employeeMapper.queryAll();
-        return Result.success(employeeList);
+    public PageInfo<Employee> queryAll(@RequestParam(value = "page",defaultValue = "1") Integer currentPage,@RequestParam(value = "size", defaultValue = "10") Integer pageSize){
+
+        PageHelper.startPage(currentPage,pageSize);
+
+        List<Employee> employeeList = employeeService.queryAll();
+
+        PageInfo<Employee> pageInfo = new PageInfo<>(employeeList);
+
+        return pageInfo;
     }
 
 

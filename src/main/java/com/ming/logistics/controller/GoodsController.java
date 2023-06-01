@@ -1,7 +1,9 @@
 package com.ming.logistics.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ming.logistics.mapper.GoodsMapper;
 import com.ming.logistics.pojo.Goods;
 import com.ming.logistics.service.GoodsService;
@@ -30,8 +32,11 @@ public class GoodsController {
      */
     //查询所有商品
     @GetMapping
-    public List<Goods> queryAll() {
-        return goodsService.list();
+    public Page<Goods> queryAll(Integer page,Integer size) {
+        Page<Goods> goodsPage = new Page<>(page,size);
+//        LambdaQueryWrapper<Goods> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        Page<Goods> page1 = goodsService.page(goodsPage);
+        return page1;
     }
 
     /**

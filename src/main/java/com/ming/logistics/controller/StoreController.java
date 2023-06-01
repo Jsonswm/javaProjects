@@ -1,6 +1,7 @@
 package com.ming.logistics.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ming.logistics.pojo.Store;
 import com.ming.logistics.service.StoreService;
 import com.ming.logistics.utils.Result;
@@ -20,10 +21,12 @@ public class StoreController {
 
     //查询所有仓库信息
     @GetMapping()
-    public Result list(){
+    public Result list(Integer currentPage, Integer pageSize){
 
-        System.out.println(storeService.list());
-        return Result.success(storeService.list());
+        Page<Store> storePage = new Page<>(currentPage,pageSize);
+        Page<Store> storePage1 = storeService.page(storePage);
+//        System.out.println(storeService.list());
+        return Result.success(storePage1);
     }
 
     //增加仓库

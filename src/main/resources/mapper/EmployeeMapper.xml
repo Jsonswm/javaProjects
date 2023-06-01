@@ -34,7 +34,6 @@
         FROM employee e
                  LEFT JOIN department d ON e.d_id = d.id
                  left join professional p on p.id = e.p_id
-
     </select>
     <!--查询所有的驾驶员-->
     <select id="queryDrivers" resultMap="employeeMap">

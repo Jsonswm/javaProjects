@@ -1,6 +1,8 @@
 package com.ming.logistics.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ming.logistics.dto.ClassifyByDepartmentDto;
 import com.ming.logistics.dto.ClassifyProfessionalDto;
 import com.ming.logistics.pojo.Employee;

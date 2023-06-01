@@ -1,5 +1,6 @@
 package com.ming.logistics.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ming.logistics.pojo.Unit;
 import com.ming.logistics.service.UnitService;
 import com.ming.logistics.utils.Result;
@@ -16,9 +17,18 @@ public class UnitController {
 
 
     @GetMapping
+    public Page<Unit> getAllUnits(Integer currentPage, Integer pageSize){
+
+        Page<Unit> unitPage = new Page<>(currentPage,pageSize);
+        return unitService.page(unitPage);
+    }
+
+    @GetMapping("/getUnits")
     public Result getAllUnits(){
+
         return Result.success(unitService.list());
     }
+
 
     @PostMapping
     public Result addUnits(@RequestBody Unit unit){

@@ -2,6 +2,7 @@ package com.ming.logistics.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ming.logistics.pojo.Car;
 import com.ming.logistics.service.CarService;
 import com.ming.logistics.utils.Result;
@@ -25,9 +26,17 @@ public class CarController {
     }
     //查询所有车辆所有信息
     @GetMapping
-    public Result queryALl(){
+    public Page<Car> queryALl(Integer currentPage, Integer pageSize){
+        Page<Car> page = new Page<>(currentPage,pageSize);
+        return carService.page(page);
+    }
+
+    @GetMapping("/getCars")
+    public Result getCars(){
         return Result.success(carService.list());
     }
+
+
 
     @GetMapping("/queryByType")
     public Result queryByType(String type){

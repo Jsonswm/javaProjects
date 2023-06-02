@@ -2,6 +2,7 @@ package com.ming.logistics.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ming.logistics.dto.ClassifyByDeliveryStateDto;
+import com.ming.logistics.dto.DeliveryDto;
 import com.ming.logistics.mapper.DeliveryMapper;
 import com.ming.logistics.pojo.Delivery;
 import com.ming.logistics.service.DeliveryService;
@@ -40,12 +41,7 @@ public class DeliveryController {
         return Result.success(deliveryService.list(deliveryQueryWrapper));
     }
 
-    @GetMapping("/queryOrderInDelivery")
-    public Result queryOrderInDelivery() {
-        QueryWrapper<Delivery> deliveryQueryWrapper = new QueryWrapper<>();
-        deliveryQueryWrapper.eq("delivery_state", 2);
-        return Result.success(deliveryService.list(deliveryQueryWrapper));
-    }
+
 
     @GetMapping("/queryOrderAccomplish")
     public Result queryOrderAccomplish() {
@@ -129,6 +125,28 @@ public class DeliveryController {
         return Result.success(deliveryService.list(deliveryQueryWrapper));
     }
 
+    @GetMapping("/queryOrderInDelivery")
+    public Result queryOrderInDelivery() {
+        QueryWrapper<Delivery> deliveryQueryWrapper = new QueryWrapper<>();
+        deliveryQueryWrapper.eq("delivery_state", 2);
+
+        return Result.success(deliveryService.list(deliveryQueryWrapper));
+    }
+
+    /** 
+     * @description: 获取订单所有的信息(包括配送员信息)
+     * @param: null 
+     * @return:  
+     * @author swm
+     * @date: 2023/6/2 15:49
+     */
+
+    @GetMapping("/getDeliveryDetailInfo")
+    public Result getDeliveryDetailInfo(){
+
+        return Result.success(deliveryService.getDeliveryInfo());
+    }
+
 
     /**
      * @description: 添加订单
@@ -142,6 +160,8 @@ public class DeliveryController {
         return Result.success(deliveryService.save(delivery));
     }
 
+    
+    
 
     @PutMapping
     public Result updateDelivery(@RequestBody Delivery delivery) {

@@ -32,7 +32,7 @@ public class GoodsController {
      */
     //查询所有商品
     @GetMapping
-    public Page<Goods> queryAll(Integer page,Integer size) {
+    public Page<Goods> queryAll(@RequestParam("currentPage") Integer page,@RequestParam("pageSize") Integer size) {
         Page<Goods> goodsPage = new Page<>(page,size);
 //        LambdaQueryWrapper<Goods> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         Page<Goods> page1 = goodsService.page(goodsPage);

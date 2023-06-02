@@ -1,6 +1,7 @@
 package com.ming.logistics.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.ming.logistics.config.RedisConfig;
 import com.ming.logistics.pojo.User;
 import com.ming.logistics.service.UserService;
 import com.ming.logistics.utils.MD5;
@@ -8,6 +9,7 @@ import com.ming.logistics.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    Jedis jedis = RedisConfig.getJedis();
 
     //查询所有用户
     @GetMapping
@@ -30,6 +34,29 @@ public class UserController {
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account",account);
         return Result.success(userService.list(queryWrapper));
+    }
+
+    @PostMapping("/logout")
+    public Result logout(@RequestParam("account") String account) {
+        String key = "now_login_time_" + account;
+
+        String nowTimeValue = jedis.get(key);
+
+        String preKey = "pre_login_time_" + account;
+
+        jedis.set(preKey, nowTimeValue);
+        return Result.success();
+    }
+
+    @GetMapping("/getPreLoginTime")
+    public String getPreLoginTime(@RequestParam("account") String account){
+//        User user = new User();
+        String key = "pre_login_time_"+ account;
+        String timeValue = jedis.get(key);
+        if(timeValue == null){
+            timeValue="第一次登录";
+        }
+        return timeValue;
     }
 
     @GetMapping("/getUsers")

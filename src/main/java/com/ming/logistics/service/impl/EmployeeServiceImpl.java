@@ -21,4 +21,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeMapper, Employee> i
         List<Employee> employeeList = employeeMapper.queryAll();
         return employeeList;
     }
+
+
 }

@@ -10,9 +10,65 @@
         GROUP BY delivery_state
     </select>
     <resultMap id="deliveryByState" type="com.ming.logistics.dto.ClassifyByDeliveryStateDto">
-        <result property="deliveryState"  column="delivery_state"/>
-        <result property="count"  column="count"/>
+        <result property="deliveryState" column="delivery_state"/>
+        <result property="count" column="count"/>
         <result property="percentage" column="percentage"/>
+    </resultMap>
+
+    <select id="getDeliveryInfo" resultMap="deliveryInfo">
+        select d.id d_id,
+               d.delivery_serial,
+               d.delivery_img,
+               d.delivery_name,
+               d.delivery_state,
+               d.account,
+               u.id u_id,
+               u.account ua,
+               u.password,
+               u.type,
+               u.last_login_time,
+               c.id c_id,
+               c.car_serial,
+               c.car_img,
+               c.car_type,
+               c.car_status,
+               un.id un_id,
+               un.unit_serial,
+               un.unit_name,
+               unit_description
+        from delivery d
+                 left join unit un on d.unit_id = un.id
+                 left join  car c on d.car_id=c.id
+                left join user u on d.user_id=u.id
+    </select>
+
+    <resultMap id="deliveryInfo" type="com.ming.logistics.dto.DeliveryDto">
+        <result property="id" column="d_id"/>
+        <result property="deliverySerial" column="delivery_serial"/>
+        <result property="deliveryImg" column="delivery_img"/>
+        <result property="deliveryName" column="delivery_name"/>
+        <result property="deliveryState" column="delivery_state"/>
+        <result property="account" column="account"/>
+        <association property="unit" javaType="com.ming.logistics.pojo.Unit">
+            <result property="id" column="un_id"/>
+            <result property="unitSerial" column="unit_serial"/>
+            <result property="unitName" column="unit_name"/>
+            <result property="unitDescription" column="unit_description"/>
+        </association>
+        <association property="user" javaType="com.ming.logistics.pojo.User">
+            <result property="id" column="u_id"/>
+            <result property="account" column="ua"/>
+            <result property="password" column="password"/>
+            <result property="type" column="type"/>
+            <result property="lastLoginTime" column="last_login_time"/>
+        </association>
+        <association property="car" javaType="com.ming.logistics.pojo.Car">
+            <result property="id" column="c_id"/>
+            <result property="carSerial" column="car_serial"/>
+            <result property="carImg" column="car_img"/>
+            <result property="carType" column="car_type"/>
+            <result property="carStatus" column="car_status"/>
+        </association>
     </resultMap>
 
 </mapper>

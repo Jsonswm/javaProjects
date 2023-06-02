@@ -16,4 +16,6 @@ public interface EmployeeService extends IService<Employee> {
      * @date: 2023/6/1 9:33
      */
     List<Employee> queryAll();
+
+
 }

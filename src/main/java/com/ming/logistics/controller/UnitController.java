@@ -25,7 +25,6 @@ public class UnitController {
 
     @GetMapping("/getUnits")
     public Result getAllUnits(){
-
         return Result.success(unitService.list());
     }
 
